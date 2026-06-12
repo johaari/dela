@@ -1,4 +1,3 @@
-// Screen 3: The core contribution screen. Three-zone card with all contribution prompts visible at once.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +9,13 @@ import PageShell from '../components/PageShell';
 import Btn from '../components/Btn';
 import Tag from '../components/Tag';
 import IkeaLogo from '../components/IkeaLogo';
+
+const INITIATIVE_HEADER_COLORS: Record<string, string> = {
+  afterschool: '#D6E8F5',
+  mentorship: '#F5D6E0',
+  lgbtq: '#E8D6F5',
+  kitchen: '#D6F0E3',
+};
 
 const OFFER_OPTIONS = [
   'Time',
@@ -120,26 +126,29 @@ export default function Shape() {
             <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
 
               {/* Zone 1: Partnership header */}
-              <div className="bg-[#FAFAFA] border-b border-gray-100 px-5 py-4">
+              <div
+                className="border-b border-black/5 px-5 py-4"
+                style={{ backgroundColor: INITIATIVE_HEADER_COLORS[initiative.id] ?? '#F0EDE8' }}
+              >
                 <div className="flex items-center gap-3">
                   <IkeaLogo size="sm" />
-                  <span className="text-gray-300 font-light text-lg select-none">+</span>
+                  <span className="text-gray-400 font-light text-lg select-none">+</span>
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-ikea-border flex items-center justify-center flex-shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-white/60 border border-black/10 flex items-center justify-center flex-shrink-0">
                       <span className="text-xs font-bold text-gray-600">{partnerInitial}</span>
                     </div>
                     <span className="text-sm font-semibold text-ikea-text">{partnerName}</span>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2 italic">
+                <p className="text-xs font-serif italic text-gray-500 mt-2">
                   A project being shaped together.
                 </p>
               </div>
 
-              {/* Zone 2: Photo + title + description */}
+              {/* Zone 2: Photo + tags */}
               <div className="relative h-48 bg-gray-100 overflow-hidden">
                 <img
-                  src={`https://picsum.photos/seed/${initiative.imageSeed}/800/400`}
+                  src={initiative.image}
                   alt=""
                   className="w-full h-full object-cover"
                   loading="eager"
@@ -159,19 +168,35 @@ export default function Shape() {
                 </div>
               </div>
 
+              {/* Title + description + still open */}
               <div className="p-6 pb-4">
-                <h2 className="text-2xl font-bold text-ikea-text mb-3 leading-tight">
+                <h2 className="text-xl font-serif font-bold text-ikea-text mb-3 leading-snug">
                   {initiative.title}
                 </h2>
                 <p className="text-base text-gray-600 leading-relaxed mb-4">
                   {initiative.description}
                 </p>
                 <p className="text-sm text-gray-400 italic leading-relaxed">
-                  Still open: {initiative.stillOpen}
+                  {initiative.stillOpen}
                 </p>
               </div>
 
-              {/* Zone 3: What each side brings */}
+              {/* Track record */}
+              <div className="px-6 pb-5">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                  What's happened so far
+                </p>
+                <div className="space-y-3">
+                  {initiative.trackRecord.map((entry) => (
+                    <div key={entry.date} className="pl-4 border-l-2 border-ikea-blue">
+                      <p className="text-xs font-semibold text-ikea-blue mb-0.5">{entry.date}</p>
+                      <p className="text-sm text-gray-700 leading-relaxed">{entry.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* What each side brings */}
               <div className="mx-5 mb-5 border border-ikea-border rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-2 divide-x divide-ikea-border">
                   <div className="p-4">

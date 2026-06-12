@@ -255,7 +255,7 @@ export default function Idea() {
         return (
           <div>
             <h2 className="text-3xl font-bold text-ikea-text mb-3">
-              Anything else you want IKEA to know?
+              Anything else you want DELA to know?
             </h2>
             <p className="text-base text-gray-500 mb-6">
               Add context, a story, or a concern. Or skip ahead. This is
@@ -288,7 +288,7 @@ export default function Idea() {
               Does this look right?
             </h2>
             <p className="text-base text-gray-500 mb-7">
-              Review your idea before sending it to IKEA Family.
+              Review your idea before sending it to DELA.
             </p>
             <div className="bg-ikea-bg rounded-2xl p-5 space-y-4 mb-8">
               <div>
@@ -358,7 +358,7 @@ export default function Idea() {
                 Edit
               </Btn>
               <Btn onClick={submit} fullWidth>
-                Send to IKEA Family
+                Send to DELA
               </Btn>
             </div>
           </div>

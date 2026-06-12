@@ -3,6 +3,12 @@ export type Member = {
   number: string;
 };
 
+export type TrackRecordEntry = {
+  date: string;
+  text: string;
+  person?: string;
+};
+
 export type Initiative = {
   id: string;
   title: string;
@@ -10,9 +16,10 @@ export type Initiative = {
   description: string;
   stillOpen: string;
   tags: string[];
-  imageSeed: string;
+  image: string;
   ikeaBrings: string[];
   partnerBrings: string[];
+  trackRecord: TrackRecordEntry[];
   shapedBy: string[];
   nextMeeting?: {
     date: string;

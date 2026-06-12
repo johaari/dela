@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Btn from '../components/Btn';
 import PageShell from '../components/PageShell';
+import { copy } from '../data/copy';
+
+const slideTexts = copy.intro.slides;
 
 const slides = [
   {
@@ -16,7 +19,7 @@ const slides = [
         <path d="M41 20l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    text: 'Four local projects are in the works. None of them are finished without you.',
+    text: slideTexts[0],
   },
   {
     icon: (
@@ -30,7 +33,7 @@ const slides = [
         <circle cx="44" cy="40" r="3" fill="#FFDB00" stroke="#0058A3" strokeWidth="1.5" />
       </svg>
     ),
-    text: 'Add what\'s missing, share what you can offer, or bring a new idea to the table.',
+    text: slideTexts[1],
   },
   {
     icon: (
@@ -40,7 +43,7 @@ const slides = [
         <path d="M12 48h40" stroke="#E0E0E0" strokeWidth="2" />
       </svg>
     ),
-    text: 'Watch your contribution become part of what IKEA builds with Vesterbro.',
+    text: slideTexts[2],
   },
 ];
 
@@ -106,7 +109,7 @@ export default function Intro() {
               <div className="w-28 h-28 rounded-3xl bg-white shadow-md flex items-center justify-center mb-10">
                 {slides[index].icon}
               </div>
-              <p className="text-3xl font-semibold text-ikea-text leading-snug max-w-md">
+              <p className="text-3xl font-serif font-semibold text-ikea-text leading-snug max-w-md">
                 {slides[index].text}
               </p>
             </motion.div>

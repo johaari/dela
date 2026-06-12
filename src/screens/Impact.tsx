@@ -9,6 +9,8 @@ import { useSession } from '../context/SessionContext';
 import type { WallNote } from '../data/types';
 import PageShell from '../components/PageShell';
 import Btn from '../components/Btn';
+import { copy } from '../data/copy';
+import { summariseContribution } from '../data/contribution';
 
 const COUNTER_KEY = 'ikea-community-voice-counter';
 
@@ -25,21 +27,6 @@ function incrementCount(): number {
   const next = prev + 1;
   localStorage.setItem(COUNTER_KEY, String(next));
   return next;
-}
-
-function summariseContribution(c: {
-  missing?: string;
-  whoElse?: string;
-  canOffer?: string[];
-  note?: string;
-}): string {
-  const parts: string[] = [];
-  if (c.missing) parts.push(`flagged that "${c.missing}" feels missing`);
-  if (c.whoElse) parts.push(`suggested "${c.whoElse}" should be involved`);
-  if (c.canOffer && c.canOffer.length > 0)
-    parts.push(`offered to contribute: ${c.canOffer.join(', ')}`);
-  if (c.note) parts.push(`added: "${c.note}"`);
-  return parts.join('; ');
 }
 
 function ContributionBar({
@@ -143,6 +130,7 @@ export default function Impact() {
     if (userNotes.length > 0) {
       appendWallNotes(userNotes);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // intentionally run once on mount
 
   const communityCount = getCommunityCount();
@@ -183,7 +171,7 @@ export default function Impact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-4xl font-bold text-ikea-text mb-2">
+          <h1 className="text-4xl font-serif font-bold text-ikea-text mb-2">
             Here's what you shaped today.
           </h1>
           <p className="text-lg text-gray-500 mb-8">
@@ -268,7 +256,7 @@ export default function Impact() {
               "{session.idea.oneLiner}"
             </p>
             <p className="text-sm text-ikea-text opacity-70">
-              Received. IKEA Family will bring this to local partners next month.
+              Received. DELA will bring this to local partners next month.
             </p>
           </motion.div>
         )}
@@ -328,7 +316,7 @@ export default function Impact() {
               </>
             ) : (
               <p className="text-base text-blue-100 leading-relaxed">
-                When IKEA Family meets with local partners next month to look at new
+                When DELA meets with local partners next month to look at new
                 ideas, we'll let you know what comes of yours.
               </p>
             )}
@@ -390,13 +378,12 @@ export default function Impact() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.6 }}
         >
-          None of these are finished without you. The next version of each
-          project will reflect what neighbours like you brought to them.
+          {copy.impact.closingLine}
         </motion.p>
 
         <div className="flex justify-center mb-4">
           <Btn onClick={() => navigate('/login')} className="min-w-[200px]">
-            Done!
+            {copy.impact.doneCta}
           </Btn>
         </div>
       </div>

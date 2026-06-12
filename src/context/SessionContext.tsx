@@ -5,10 +5,12 @@ import {
   useEffect,
   type ReactNode,
 } from 'react';
-import type { SessionState, Contribution, Idea, Member, WallNote } from '../data/types';
+import type { SessionState, Contribution, Idea, WallNote } from '../data/types';
 import { seedNotes } from '../data/seedNotes';
 
 const STORAGE_KEY = 'ikea-community-voice-session';
+
+const SIGRID = { name: 'Sigrid Lindqvist', number: '6234 8891 0427' };
 
 function makeWallNotesFromSeeds(): WallNote[] {
   return seedNotes.map((n) => ({
@@ -20,6 +22,7 @@ function makeWallNotesFromSeeds(): WallNote[] {
 }
 
 const emptySession: SessionState = {
+  member: SIGRID,
   contributions: [],
   idea: undefined,
   completed: false,
@@ -33,28 +36,28 @@ function loadSession(): SessionState {
       return { ...emptySession, wallNotes: makeWallNotesFromSeeds() };
     }
     const parsed = JSON.parse(raw) as SessionState;
-    if (!parsed.wallNotes || parsed.wallNotes.length === 0) {
-      return { ...parsed, wallNotes: makeWallNotesFromSeeds() };
+    const base: SessionState = {
+      ...parsed,
+      member: parsed.member ?? SIGRID,
+    };
+    if (!base.wallNotes || base.wallNotes.length === 0) {
+      return { ...base, wallNotes: makeWallNotesFromSeeds() };
     }
-    return parsed;
+    return base;
   } catch {
     return { ...emptySession, wallNotes: makeWallNotesFromSeeds() };
   }
 }
 
 type Action =
-  | { type: 'SAVE_MEMBER'; payload: Member }
   | { type: 'SAVE_CONTRIBUTION'; payload: Contribution }
   | { type: 'SAVE_IDEA'; payload: Idea }
   | { type: 'SET_COMPLETED' }
   | { type: 'APPEND_WALL_NOTES'; payload: WallNote[] }
-  | { type: 'RESET_WALL' }
   | { type: 'RESET' };
 
 function reducer(state: SessionState, action: Action): SessionState {
   switch (action.type) {
-    case 'SAVE_MEMBER':
-      return { ...state, member: action.payload };
     case 'SAVE_CONTRIBUTION': {
       const existing = state.contributions.findIndex(
         (c) => c.initiativeId === action.payload.initiativeId
@@ -76,11 +79,10 @@ function reducer(state: SessionState, action: Action): SessionState {
       const newNotes = action.payload.filter((n) => !existingIds.has(n.id));
       return { ...state, wallNotes: [...state.wallNotes, ...newNotes] };
     }
-    case 'RESET_WALL':
-      return { ...state, wallNotes: makeWallNotesFromSeeds() };
     case 'RESET':
       return {
         ...emptySession,
+        member: state.member,
         wallNotes: state.wallNotes,
       };
     default:
@@ -90,12 +92,10 @@ function reducer(state: SessionState, action: Action): SessionState {
 
 type SessionContextValue = {
   session: SessionState;
-  saveMember: (m: Member) => void;
   saveContribution: (c: Contribution) => void;
   saveIdea: (idea: Idea) => void;
   setCompleted: () => void;
   appendWallNotes: (notes: WallNote[]) => void;
-  resetWall: () => void;
   reset: () => void;
 };
 
@@ -110,15 +110,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const value: SessionContextValue = {
     session,
-    saveMember: (m) => dispatch({ type: 'SAVE_MEMBER', payload: m }),
     saveContribution: (c) => dispatch({ type: 'SAVE_CONTRIBUTION', payload: c }),
     saveIdea: (idea) => dispatch({ type: 'SAVE_IDEA', payload: idea }),
     setCompleted: () => dispatch({ type: 'SET_COMPLETED' }),
     appendWallNotes: (notes) => dispatch({ type: 'APPEND_WALL_NOTES', payload: notes }),
-    resetWall: () => dispatch({ type: 'RESET_WALL' }),
-    reset: () => {
-      dispatch({ type: 'RESET' });
-    },
+    reset: () => dispatch({ type: 'RESET' }),
   };
 
   return (
@@ -126,6 +122,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSession() {
   const ctx = useContext(SessionContext);
   if (!ctx) throw new Error('useSession must be used inside SessionProvider');
