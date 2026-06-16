@@ -13,8 +13,9 @@ export type Initiative = {
   id: string;
   title: string;
   partner: string;
+  partnerLogo: string;
   description: string;
-  stillOpen: string;
+  stillOpen: string[];
   tags: string[];
   image: string;
   ikeaBrings: string[];

@@ -16,12 +16,12 @@ export default function Btn({
   ...rest
 }: Props) {
   const base =
-    'inline-flex items-center justify-center rounded-2xl font-semibold transition-all min-h-[56px] px-8 text-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-ikea-blue/40 disabled:opacity-40 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center rounded-2xl font-extrabold transition-all min-h-[56px] px-8 text-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-ink/30 disabled:opacity-40 disabled:cursor-not-allowed';
 
   const variants: Record<Variant, string> = {
-    primary: 'bg-ikea-yellow text-ikea-text hover:brightness-105 active:brightness-95 shadow-sm',
-    secondary: 'bg-white text-ikea-blue border-2 border-ikea-blue hover:bg-blue-50 active:bg-blue-100',
-    ghost: 'bg-transparent text-ikea-blue underline underline-offset-4 hover:text-blue-700 min-h-[48px] px-4',
+    primary: 'bg-accent text-ink hover:brightness-105 active:brightness-95 shadow-sm',
+    secondary: 'bg-surface-card text-ink border-2 border-border-strong hover:border-ink',
+    ghost: 'bg-transparent text-ink-secondary underline underline-offset-4 hover:text-ink min-h-[48px] px-4',
   };
 
   return (

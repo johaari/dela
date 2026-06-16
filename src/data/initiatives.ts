@@ -5,10 +5,14 @@ export const initiatives: Initiative[] = [
     id: 'afterschool',
     title: 'A room on Saxogade for kids to land after school',
     partner: 'with Settlementet på Vesterbro',
+    partnerLogo: '/settlementet.png',
     description:
       "Settlementet has been running the building on Saxogade for decades. They know the families on that block by name. We're working with them to open an after-school space that gives kids somewhere to land between school and home. Homework help, food, and a room that's theirs. It's for kids whose families are new to Denmark, but it's also just a good thing to have on a street that's changed a lot in ten years.",
-    stillOpen:
-      "Still being worked out: the hours, what language support looks like, and whether there's space for a small outdoor area.",
+    stillOpen: [
+      'The hours',
+      'What language support looks like',
+      "Whether there's space for a small outdoor area",
+    ],
     tags: ['Children', 'Migrants', 'Families', 'Education'],
     image: '/ini1.jpg',
     ikeaBrings: ['Furniture and play materials', 'A small operating grant', 'Staff volunteer hours'],
@@ -47,10 +51,14 @@ export const initiatives: Initiative[] = [
     id: 'mentorship',
     title: 'More women on the tools in Vesterbro, and further',
     partner: 'with KVINFO',
+    partnerLogo: '/kvinfo.png',
     description:
       "KVINFO has spent years documenting why young women don't end up in carpentry, electrical work, or plumbing, and what actually changes that. We're building a mentorship program with them that pairs young women in Vesterbro with tradespeople already working in the field. Some of those mentors will come from IKEA's own teams. The goal isn't a one-off program. It's a different-looking workforce in ten years, starting here.",
-    stillOpen:
-      'Still being worked out: whether it runs through schools, who recruits the first cohort, and how long each mentorship lasts.',
+    stillOpen: [
+      'Whether it runs through schools',
+      'Who recruits the first cohort',
+      'How long each mentorship lasts',
+    ],
     tags: ['Women', 'Youth', 'Trades', 'Mentorship'],
     image: '/ini2.jpg',
     ikeaBrings: [
@@ -92,10 +100,14 @@ export const initiatives: Initiative[] = [
     id: 'lgbtq',
     title: 'Vesterbro has always been that neighborhood, and this is how we keep it that way.',
     partner: 'with AIDS-Fondet & Sjakket',
+    partnerLogo: '/aidsfondet.png',
     description:
       "Sjakket has been on Istedgade for years. AIDS-Fondet knows what young LGBTQ+ people in this city actually need. Together they're opening a weekly drop-in. A room where young people can show up without an appointment or a reason, meet people, and not have to explain themselves. It's for LGBTQ+ youth in Vesterbro specifically. It's also what makes Vesterbro the kind of place people choose to live.",
-    stillOpen:
-      'Still being worked out: weekend versus weekday hours, whether peer facilitators run it, and what the room actually looks like.',
+    stillOpen: [
+      'Weekend versus weekday hours',
+      'Whether peer facilitators run it',
+      'What the room actually looks like',
+    ],
     tags: ['Youth', 'LGBTQ+', 'Mental health', 'Community'],
     image: '/ini3.jpg',
     ikeaBrings: [
@@ -137,10 +149,14 @@ export const initiatives: Initiative[] = [
     id: 'kitchen',
     title: "A kitchen on Mændenes Hjem's block that's open, warm, and run by people who know the street",
     partner: 'with Mændenes Hjem',
+    partnerLogo: '/maendeneshjem.png',
     description:
       "Mændenes Hjem has been on Dannebrogsgade for over a hundred years. They know every person who sleeps rough on that end of Vesterbro. We're building out a kitchen with them, bringing equipment, a weekly food supply, and a covered outdoor area so they can serve hot meals at a scale they haven't been able to reach before. It's not a soup kitchen with a sign. It's an extension of the work Mændenes Hjem already does, every day, without much fuss.",
-    stillOpen:
-      "Still being worked out: opening days, whether the kitchen can be used by other neighborhood groups on off-days, and staffing.",
+    stillOpen: [
+      'Opening days',
+      'Whether the kitchen can be used by other neighborhood groups on off-days',
+      'Staffing',
+    ],
     tags: ['Unhoused', 'Food', 'Community', 'Dignity'],
     image: '/ini4.jpg',
     ikeaBrings: ['Kitchen equipment', 'Weekly food supply', 'A covered outdoor area'],

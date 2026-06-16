@@ -11,6 +11,7 @@ import PageShell from '../components/PageShell';
 import Btn from '../components/Btn';
 import { copy } from '../data/copy';
 import { summariseContribution } from '../data/contribution';
+import { INITIATIVE_TONES, TILE_BG, TILE_TEXT } from '../data/tileTones';
 
 const COUNTER_KEY = 'ikea-community-voice-counter';
 
@@ -45,8 +46,8 @@ function ContributionBar({
   const pct = max > 0 ? (value / max) * 100 : 0;
   return (
     <div className="flex items-center gap-3">
-      <span className="w-36 text-sm text-gray-600 flex-shrink-0">{label}</span>
-      <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+      <span className="w-36 text-sm text-ink-secondary flex-shrink-0">{label}</span>
+      <div className="flex-1 h-3 bg-secondary rounded-full overflow-hidden">
         <motion.div
           className={`h-full rounded-full ${color}`}
           initial={{ width: 0 }}
@@ -54,7 +55,7 @@ function ContributionBar({
           transition={{ duration: 0.7, delay, ease: 'easeOut' }}
         />
       </div>
-      <span className="w-8 text-sm font-semibold text-ikea-text text-right">
+      <span className="w-8 text-sm font-bold text-ink text-right">
         {value}
       </span>
     </div>
@@ -171,10 +172,10 @@ export default function Impact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-4xl font-serif font-bold text-ikea-text mb-2">
+          <h1 className="text-4xl font-sans font-black tracking-tight text-ink mb-2">
             Here's what you shaped today.
           </h1>
-          <p className="text-lg text-gray-500 mb-8">
+          <p className="text-lg text-ink-muted mb-8">
             Your input goes directly into the working notes for each project.
           </p>
         </motion.div>
@@ -189,15 +190,15 @@ export default function Impact() {
               return (
                 <motion.div
                   key={initiative.id}
-                  className="bg-white rounded-2xl p-5 border border-ikea-border"
+                  className="bg-surface-card rounded-2xl p-5 border border-border"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: idx * 0.06 }}
                 >
-                  <p className="text-sm font-semibold text-gray-400 mb-1">
+                  <p className="text-sm font-semibold text-ink-muted mb-1">
                     {initiative.title}
                   </p>
-                  <p className="text-sm text-gray-400 italic">
+                  <p className="text-sm text-ink-muted">
                     You passed on this one. That's useful too.
                   </p>
                 </motion.div>
@@ -205,11 +206,12 @@ export default function Impact() {
             }
 
             const summary = summariseContribution(contribution);
+            const tone = INITIATIVE_TONES[initiative.id] ?? 'lavender';
 
             return (
               <motion.div
                 key={initiative.id}
-                className="bg-white rounded-2xl p-5 shadow-sm"
+                className="bg-surface-card rounded-2xl p-5 shadow-sm"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: idx * 0.06 }}
@@ -217,22 +219,22 @@ export default function Impact() {
                 <div className="flex items-start gap-3">
                   <CheckCircle2
                     size={22}
-                    className="text-ikea-green flex-shrink-0 mt-0.5"
+                    className={`flex-shrink-0 mt-0.5 ${TILE_TEXT[tone]}`}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-ikea-blue mb-1">
+                    <p className="text-sm font-semibold text-ink mb-1">
                       {initiative.title}
                     </p>
                     {summary ? (
-                      <p className="text-base text-ikea-text leading-relaxed mb-2">
+                      <p className="text-base text-ink leading-relaxed mb-2">
                         You {summary}.
                       </p>
                     ) : (
-                      <p className="text-base text-gray-500 italic mb-2">
+                      <p className="text-base text-ink-muted mb-2">
                         You showed your support for this project.
                       </p>
                     )}
-                    <p className="text-xs text-gray-400 italic">
+                    <p className="text-xs text-ink-muted">
                       Added to the working notes for {initiative.partner.replace('with ', '')}.
                     </p>
                   </div>
@@ -244,18 +246,18 @@ export default function Impact() {
 
         {session.idea && (
           <motion.div
-            className="bg-ikea-yellow rounded-2xl p-5 mb-8 shadow-sm"
+            className="bg-accent rounded-2xl p-5 mb-8 shadow-sm"
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.35, delay: 0.25 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-ikea-text mb-2">
+            <p className="text-[0.65rem] font-extrabold uppercase tracking-[0.1em] text-ink mb-2">
               Your idea
             </p>
-            <p className="text-lg font-semibold text-ikea-text mb-2">
+            <p className="text-lg font-semibold text-ink mb-2">
               "{session.idea.oneLiner}"
             </p>
-            <p className="text-sm text-ikea-text opacity-70">
+            <p className="text-sm text-ink opacity-70">
               Received. DELA will bring this to local partners next month.
             </p>
           </motion.div>
@@ -263,44 +265,47 @@ export default function Impact() {
 
         {showComeMeet && (
           <motion.div
-            className="bg-ikea-blue rounded-2xl p-6 mb-8 text-white"
+            className="bg-accent-dark rounded-2xl p-6 mb-8 text-white/80"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.3 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-200 mb-2">
+            <p className="text-[0.65rem] font-extrabold uppercase tracking-[0.1em] text-white/50 mb-2">
               What's next
             </p>
-            <h2 className="text-xl font-bold text-white mb-3">
+            <h2 className="text-xl font-sans font-black tracking-tight text-white/90 mb-3">
               Come meet the people behind the projects you helped shape.
             </h2>
 
             {contributedInitiativesWithMeetings.length > 0 ? (
               <>
-                <p className="text-base text-blue-100 leading-relaxed mb-5">
+                <p className="text-base text-white/70 leading-relaxed mb-5">
                   {memberFirstName ? `${memberFirstName}, every` : 'Every'} project you
                   contributed to has an open neighbourhood meeting in the coming weeks.
                   Drop in for any of them. No sign-up, no commitment. Just a chance to
                   meet the partners and other neighbours shaping this with you.
                 </p>
                 <div className="space-y-3 mb-6">
-                  {contributedInitiativesWithMeetings.map((initiative) => (
-                    <div
-                      key={initiative.id}
-                      className="bg-white/10 rounded-xl p-4"
-                    >
-                      <p className="font-semibold text-white text-sm">
-                        {initiative.title}
-                      </p>
-                      <p className="text-blue-100 text-sm mt-1">
-                        {initiative.nextMeeting!.date}, {initiative.nextMeeting!.time}
-                      </p>
-                      <p className="text-blue-200 text-xs mt-0.5">
-                        {initiative.nextMeeting!.location} · Hosted by{' '}
-                        {initiative.partner.replace('with ', '')}
-                      </p>
-                    </div>
-                  ))}
+                  {contributedInitiativesWithMeetings.map((initiative) => {
+                    const tone = INITIATIVE_TONES[initiative.id] ?? 'lavender';
+                    return (
+                      <div
+                        key={initiative.id}
+                        className={`rounded-xl p-4 ${TILE_BG[tone]}`}
+                      >
+                        <p className={`font-semibold text-sm ${TILE_TEXT[tone]}`}>
+                          {initiative.title}
+                        </p>
+                        <p className={`text-sm mt-1 opacity-80 ${TILE_TEXT[tone]}`}>
+                          {initiative.nextMeeting!.date}, {initiative.nextMeeting!.time}
+                        </p>
+                        <p className={`text-xs mt-0.5 opacity-70 ${TILE_TEXT[tone]}`}>
+                          {initiative.nextMeeting!.location} · Hosted by{' '}
+                          {initiative.partner.replace('with ', '')}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
                 <Btn onClick={handleCalendar} variant="secondary" fullWidth>
                   Add to my calendar
@@ -308,14 +313,14 @@ export default function Impact() {
                 <div className="flex justify-center mt-3">
                   <button
                     onClick={() => setMeetingsDismissed(true)}
-                    className="text-blue-200 text-sm underline underline-offset-4 hover:text-white transition-colors min-h-[44px] px-4"
+                    className="text-white/60 text-sm underline underline-offset-4 hover:text-white/90 transition-colors min-h-[44px] px-4"
                   >
                     Not this time
                   </button>
                 </div>
               </>
             ) : (
-              <p className="text-base text-blue-100 leading-relaxed">
+              <p className="text-base text-white/70 leading-relaxed">
                 When DELA meets with local partners next month to look at new
                 ideas, we'll let you know what comes of yours.
               </p>
@@ -324,14 +329,14 @@ export default function Impact() {
         )}
 
         <motion.div
-          className="bg-ikea-blue rounded-2xl p-6 mb-8 text-white text-center"
+          className="bg-accent-dark rounded-2xl p-6 mb-8 text-white/80 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.4 }}
         >
           <p className="text-lg leading-relaxed">
             You're one of{' '}
-            <span className="text-3xl font-bold text-ikea-yellow">
+            <span className="text-3xl font-bold text-accent">
               {communityCount.toLocaleString('da-DK')}
             </span>{' '}
             neighbours shaping Vesterbro this month.
@@ -339,12 +344,12 @@ export default function Impact() {
         </motion.div>
 
         <motion.div
-          className="bg-white rounded-2xl p-6 mb-8 shadow-sm"
+          className="bg-surface-card rounded-2xl p-6 mb-8 shadow-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.48 }}
         >
-          <p className="text-base font-semibold text-ikea-text mb-4">
+          <p className="text-base font-semibold text-ink mb-4">
             What neighbours have been contributing across all four projects
           </p>
           <div className="space-y-4">
@@ -352,28 +357,28 @@ export default function Impact() {
               label="Perspectives shared"
               value={stats.perspectives + 47}
               max={maxStat + 47}
-              color="bg-ikea-blue"
+              color="bg-tile-blue-ink"
               delay={0.55}
             />
             <ContributionBar
               label="Skills offered"
               value={stats.skills + 33}
               max={maxStat + 47}
-              color="bg-ikea-green"
+              color="bg-tile-green-ink"
               delay={0.62}
             />
             <ContributionBar
               label="Connections named"
               value={stats.connections + 21}
               max={maxStat + 47}
-              color="bg-amber-400"
+              color="bg-tile-amber-ink"
               delay={0.68}
             />
           </div>
         </motion.div>
 
         <motion.p
-          className="text-base text-gray-500 text-center italic leading-relaxed mb-8"
+          className="text-base text-ink-muted text-center leading-relaxed mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.6 }}
@@ -391,7 +396,7 @@ export default function Impact() {
       <AnimatePresence>
         {calendarToastVisible && (
           <motion.div
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-ikea-text text-white px-6 py-3 rounded-2xl shadow-lg text-sm font-medium z-50 whitespace-nowrap"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-ink text-white/80 px-6 py-3 rounded-2xl shadow-lg text-sm font-medium z-50 whitespace-nowrap"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}

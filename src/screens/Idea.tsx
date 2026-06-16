@@ -8,6 +8,7 @@ import { useSession } from '../context/SessionContext';
 import PageShell from '../components/PageShell';
 import Btn from '../components/Btn';
 import Tag from '../components/Tag';
+import { TILE_BG, TILE_TEXT, toneForIndex } from '../data/tileTones';
 
 const FOR_WHO_OPTIONS = [
   'Youth', 'Elderly', 'Migrants', 'LGBTQ+', 'Unhoused', 'Women', 'Families', 'Other',
@@ -44,10 +45,10 @@ function StepDots({ step }: { step: number }) {
           key={i}
           className={`h-2 rounded-full transition-all ${
             i < step
-              ? 'w-5 bg-ikea-blue opacity-60'
+              ? 'w-5 bg-ink opacity-60'
               : i === step
-              ? 'w-7 bg-ikea-blue'
-              : 'w-5 bg-ikea-border'
+              ? 'w-7 bg-ink'
+              : 'w-5 bg-border-strong'
           }`}
         />
       ))}
@@ -121,10 +122,10 @@ export default function Idea() {
       case 0:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-3">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-3">
               What's your idea, in one sentence?
             </h2>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-ink-muted mb-6">
               Just the heart of it. You can add more in the next steps.
             </p>
             <textarea
@@ -135,7 +136,7 @@ export default function Idea() {
               }
               placeholder="e.g. A weekly meeting place for elderly women who live alone in Vesterbro."
               rows={3}
-              className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-lg text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue resize-none"
+              className="w-full border border-border rounded-2xl px-4 py-3 text-lg text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink resize-none"
             />
             <div className="mt-6">
               <Btn onClick={goNext} fullWidth disabled={!draft.oneLiner.trim()}>
@@ -148,19 +149,20 @@ export default function Idea() {
       case 1:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-3">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-3">
               Who would this be for?
             </h2>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-ink-muted mb-6">
               Pick as many as feel right.
             </p>
             <div className="flex flex-wrap gap-3 mb-4">
-              {FOR_WHO_OPTIONS.map((opt) => (
+              {FOR_WHO_OPTIONS.map((opt, i) => (
                 <Tag
                   key={opt}
                   label={opt}
                   active={draft.forWho.includes(opt)}
                   onClick={() => handleForWhoToggle(opt)}
+                  tone={toneForIndex(i)}
                 />
               ))}
             </div>
@@ -173,7 +175,7 @@ export default function Idea() {
                     setDraft((d) => ({ ...d, forWhoOther: e.target.value }))
                   }
                   placeholder="Tell us who you have in mind."
-                  className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-base text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue"
+                  className="w-full border border-border rounded-2xl px-4 py-3 text-base text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink"
                 />
               </div>
             )}
@@ -191,19 +193,20 @@ export default function Idea() {
       case 2:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-3">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-3">
               What would it need to happen?
             </h2>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-ink-muted mb-6">
               Pick everything that applies.
             </p>
             <div className="flex flex-wrap gap-3 mb-8">
-              {NEEDS_OPTIONS.map((opt) => (
+              {NEEDS_OPTIONS.map((opt, i) => (
                 <Tag
                   key={opt}
                   label={opt}
                   active={draft.needs.includes(opt)}
                   onClick={() => toggleMulti('needs', opt)}
+                  tone={toneForIndex(i)}
                 />
               ))}
             </div>
@@ -221,10 +224,10 @@ export default function Idea() {
       case 3:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-3">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-3">
               Who in Vesterbro should be part of this?
             </h2>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-ink-muted mb-6">
               A person, a group, an organisation. Anyone who comes to mind.
               This is optional.
             </p>
@@ -238,7 +241,7 @@ export default function Idea() {
               }
               placeholder="e.g. Gaderummet, the local women's shelter, Vesterbro Ny Skole..."
               rows={3}
-              className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-lg text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue resize-none"
+              className="w-full border border-border rounded-2xl px-4 py-3 text-lg text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink resize-none"
             />
             <div className="flex gap-3 mt-6">
               <Btn variant="secondary" onClick={goBack}>
@@ -254,10 +257,10 @@ export default function Idea() {
       case 4:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-3">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-3">
               Anything else you want DELA to know?
             </h2>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-ink-muted mb-6">
               Add context, a story, or a concern. Or skip ahead. This is
               optional.
             </p>
@@ -268,7 +271,7 @@ export default function Idea() {
               }
               placeholder="Write as freely as you like."
               rows={4}
-              className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-lg text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue resize-none"
+              className="w-full border border-border rounded-2xl px-4 py-3 text-lg text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink resize-none"
             />
             <div className="flex gap-3 mt-6">
               <Btn variant="secondary" onClick={goBack}>
@@ -284,72 +287,78 @@ export default function Idea() {
       case 5:
         return (
           <div>
-            <h2 className="text-3xl font-bold text-ikea-text mb-2">
+            <h2 className="text-3xl font-sans font-black tracking-tight text-ink mb-2">
               Does this look right?
             </h2>
-            <p className="text-base text-gray-500 mb-7">
+            <p className="text-base text-ink-muted mb-7">
               Review your idea before sending it to DELA.
             </p>
-            <div className="bg-ikea-bg rounded-2xl p-5 space-y-4 mb-8">
+            <div className="bg-secondary rounded-2xl p-5 space-y-4 mb-8">
               <div>
-                <p className="text-xs font-semibold text-ikea-blue uppercase tracking-widest mb-1">
+                <p className="text-[0.65rem] font-extrabold text-ink-muted uppercase tracking-[0.1em] mb-1">
                   Your idea
                 </p>
-                <p className="text-lg font-medium text-ikea-text">
+                <p className="text-lg font-medium text-ink">
                   {draft.oneLiner}
                 </p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-ikea-blue uppercase tracking-widest mb-1">
+                <p className="text-[0.65rem] font-extrabold text-ink-muted uppercase tracking-[0.1em] mb-1">
                   For
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {draft.forWho.map((w) => (
-                    <span
-                      key={w}
-                      className="bg-white border border-ikea-border rounded-full px-3 py-1 text-sm text-ikea-text"
-                    >
-                      {w}
-                    </span>
-                  ))}
+                  {draft.forWho.map((w) => {
+                    const tone = toneForIndex(FOR_WHO_OPTIONS.indexOf(w));
+                    return (
+                      <span
+                        key={w}
+                        className={`rounded-full px-3 py-1 text-sm font-medium ${TILE_BG[tone]} ${TILE_TEXT[tone]}`}
+                      >
+                        {w}
+                      </span>
+                    );
+                  })}
                 </div>
                 {draft.forWho.includes('Other') && draft.forWhoOther && (
-                  <p className="text-sm text-gray-500 mt-2 italic">
+                  <p className="text-sm text-ink-muted mt-2">
                     plus: {draft.forWhoOther}
                   </p>
                 )}
               </div>
               <div>
-                <p className="text-xs font-semibold text-ikea-blue uppercase tracking-widest mb-1">
+                <p className="text-[0.65rem] font-extrabold text-ink-muted uppercase tracking-[0.1em] mb-1">
                   Needs
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {draft.needs.map((n) => (
-                    <span
-                      key={n}
-                      className="bg-white border border-ikea-border rounded-full px-3 py-1 text-sm text-ikea-text"
-                    >
-                      {n}
-                    </span>
-                  ))}
+                  {draft.needs.map((n) => {
+                    const tone = toneForIndex(NEEDS_OPTIONS.indexOf(n));
+                    return (
+                      <span
+                        key={n}
+                        className={`rounded-full px-3 py-1 text-sm font-medium ${TILE_BG[tone]} ${TILE_TEXT[tone]}`}
+                      >
+                        {n}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
               {draft.whoShouldBeInvolved && (
                 <div>
-                  <p className="text-xs font-semibold text-ikea-blue uppercase tracking-widest mb-1">
+                  <p className="text-[0.65rem] font-extrabold text-ink-muted uppercase tracking-[0.1em] mb-1">
                     Who should be involved
                   </p>
-                  <p className="text-base text-ikea-text">
+                  <p className="text-base text-ink">
                     {draft.whoShouldBeInvolved}
                   </p>
                 </div>
               )}
               {draft.extra && (
                 <div>
-                  <p className="text-xs font-semibold text-ikea-blue uppercase tracking-widest mb-1">
+                  <p className="text-[0.65rem] font-extrabold text-ink-muted uppercase tracking-[0.1em] mb-1">
                     Extra notes
                   </p>
-                  <p className="text-base text-ikea-text">{draft.extra}</p>
+                  <p className="text-base text-ink">{draft.extra}</p>
                 </div>
               )}
             </div>

@@ -23,25 +23,25 @@ export default function YourVoice() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <div className="w-24 h-24 mx-auto mb-10 rounded-3xl bg-ikea-yellow flex items-center justify-center shadow-md">
+          <div className="w-24 h-24 mx-auto mb-10 rounded-3xl bg-accent flex items-center justify-center shadow-md">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
               <path
                 d="M8 36 C8 36 14 28 24 28 C34 28 40 36 40 36"
-                stroke="#111111"
+                stroke="#1A1A18"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 fill="none"
               />
-              <circle cx="24" cy="18" r="8" fill="#111111" opacity="0.1" />
-              <circle cx="24" cy="18" r="5" fill="#0058A3" />
+              <circle cx="24" cy="18" r="8" fill="#1A1A18" opacity="0.1" />
+              <circle cx="24" cy="18" r="5" fill="#1A1A18" />
               <path d="M24 13v5l3 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </div>
 
-          <h1 className="text-4xl font-serif font-bold text-ikea-text leading-tight mb-4">
+          <h1 className="text-4xl font-sans font-black tracking-tight text-ink leading-tight mb-4">
             {c.headline}
           </h1>
-          <p className="text-xl text-gray-600 leading-relaxed mb-10">
+          <p className="text-xl text-ink-secondary leading-relaxed mb-10">
             {c.subtext}
           </p>
 

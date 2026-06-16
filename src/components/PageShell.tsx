@@ -19,11 +19,11 @@ export default function PageShell({ children, showLogo = true, className = '' }:
   }
 
   return (
-    <div className={`min-h-screen bg-ikea-bg flex flex-col ${className}`}>
+    <div className={`min-h-screen bg-primary flex flex-col ${className}`}>
       {showLogo && (
         <header className="px-8 pt-6 pb-2 flex items-center justify-between">
           <IkeaLogo size="md" />
-          <span className="text-sm text-gray-400 font-medium tracking-wide uppercase">
+          <span className="text-[0.65rem] text-ink-muted font-extrabold tracking-[0.1em] uppercase">
             Community Voice
           </span>
         </header>
@@ -32,7 +32,7 @@ export default function PageShell({ children, showLogo = true, className = '' }:
       <footer className="px-8 py-4 flex justify-center">
         <button
           onClick={handleReset}
-          className="text-sm text-gray-400 underline-offset-2 hover:text-gray-600 transition-colors min-h-[48px] px-4"
+          className="text-sm text-ink-muted underline-offset-2 hover:text-ink-secondary transition-colors min-h-[48px] px-4"
         >
           Start over
         </button>

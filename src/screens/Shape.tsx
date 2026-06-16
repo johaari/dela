@@ -9,13 +9,7 @@ import PageShell from '../components/PageShell';
 import Btn from '../components/Btn';
 import Tag from '../components/Tag';
 import IkeaLogo from '../components/IkeaLogo';
-
-const INITIATIVE_HEADER_COLORS: Record<string, string> = {
-  afterschool: '#D6E8F5',
-  mentorship: '#F5D6E0',
-  lgbtq: '#E8D6F5',
-  kitchen: '#D6F0E3',
-};
+import { INITIATIVE_TONES, TILE_BG, TILE_BORDER, TILE_TEXT } from '../data/tileTones';
 
 const OFFER_OPTIONS = [
   'Time',
@@ -52,7 +46,10 @@ export default function Shape() {
   const total = initiatives.length;
   const isLast = initiativeIndex === total - 1;
   const partnerName = initiative.partner.replace('with ', '');
-  const partnerInitial = partnerName.charAt(0).toUpperCase();
+  const tone = INITIATIVE_TONES[initiative.id] ?? 'lavender';
+  const headerBg = TILE_BG[tone];
+  const headerText = TILE_TEXT[tone];
+  const headerBorder = TILE_BORDER[tone];
 
   function isDraftEmpty(d: DraftContribution) {
     return !d.missing && !d.whoElse && d.canOffer.length === 0 && !d.note;
@@ -99,15 +96,15 @@ export default function Shape() {
                 key={i}
                 className={`h-2 rounded-full transition-all ${
                   i < initiativeIndex
-                    ? 'w-6 bg-ikea-blue'
+                    ? 'w-6 bg-ink'
                     : i === initiativeIndex
-                    ? 'w-8 bg-ikea-blue'
-                    : 'w-6 bg-ikea-border'
+                    ? 'w-8 bg-ink'
+                    : 'w-6 bg-border-strong'
                 }`}
               />
             ))}
           </div>
-          <span className="text-sm text-gray-500 ml-1">
+          <span className="text-sm text-ink-muted ml-1">
             {initiativeIndex + 1} of {total}
           </span>
         </div>
@@ -123,43 +120,36 @@ export default function Shape() {
             className="flex flex-col gap-6"
           >
             {/* Initiative card */}
-            <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
+            <div className="bg-surface-card rounded-3xl shadow-sm overflow-hidden">
 
               {/* Zone 1: Partnership header */}
-              <div
-                className="border-b border-black/5 px-5 py-4"
-                style={{ backgroundColor: INITIATIVE_HEADER_COLORS[initiative.id] ?? '#F0EDE8' }}
-              >
+              <div className={`border-b border-border px-5 py-4 ${headerBg}`}>
                 <div className="flex items-center gap-3">
-                  <IkeaLogo size="sm" />
-                  <span className="text-gray-400 font-light text-lg select-none">+</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-white/60 border border-black/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs font-bold text-gray-600">{partnerInitial}</span>
-                    </div>
-                    <span className="text-sm font-semibold text-ikea-text">{partnerName}</span>
-                  </div>
+                  <IkeaLogo size="md" />
+                  <span className={`font-light text-2xl select-none opacity-50 ${headerText}`}>+</span>
+                  <img
+                    src={initiative.partnerLogo}
+                    alt={partnerName}
+                    className="max-h-14 max-w-[160px] w-auto h-auto object-contain"
+                  />
                 </div>
-                <p className="text-xs font-serif italic text-gray-500 mt-2">
-                  A project being shaped together.
-                </p>
               </div>
 
               {/* Zone 2: Photo + tags */}
-              <div className="relative h-48 bg-gray-100 overflow-hidden">
+              <div className="relative h-48 bg-secondary overflow-hidden">
                 <img
                   src={initiative.image}
                   alt=""
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" />
                 <div className="absolute bottom-4 left-5 right-5">
                   <div className="flex flex-wrap gap-1.5">
                     {initiative.tags.map((t) => (
                       <span
                         key={t}
-                        className="bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full"
+                        className="bg-white/20 backdrop-blur-sm text-white/90 text-xs font-medium px-2.5 py-1 rounded-full"
                       >
                         {t}
                       </span>
@@ -168,58 +158,64 @@ export default function Shape() {
                 </div>
               </div>
 
-              {/* Title + description + still open */}
+              {/* Title + description */}
               <div className="p-6 pb-4">
-                <h2 className="text-xl font-serif font-bold text-ikea-text mb-3 leading-snug">
+                <h2 className="text-xl font-sans font-black tracking-tight text-ink mb-3 leading-snug">
                   {initiative.title}
                 </h2>
-                <p className="text-base text-gray-600 leading-relaxed mb-4">
+                <p className="text-base text-ink-secondary leading-relaxed">
                   {initiative.description}
-                </p>
-                <p className="text-sm text-gray-400 italic leading-relaxed">
-                  {initiative.stillOpen}
                 </p>
               </div>
 
               {/* Track record */}
               <div className="px-6 pb-5">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                <p className="text-[0.65rem] font-extrabold text-ink-secondary uppercase tracking-[0.1em] mb-3">
                   What's happened so far
                 </p>
                 <div className="space-y-3">
                   {initiative.trackRecord.map((entry) => (
-                    <div key={entry.date} className="pl-4 border-l-2 border-ikea-blue">
-                      <p className="text-xs font-semibold text-ikea-blue mb-0.5">{entry.date}</p>
-                      <p className="text-sm text-gray-700 leading-relaxed">{entry.text}</p>
+                    <div key={entry.date} className={`pl-4 border-l-2 ${headerBorder}`}>
+                      <p className="text-xs font-semibold text-ink-secondary mb-0.5">{entry.date}</p>
+                      <p className="text-sm text-ink-secondary leading-relaxed">{entry.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* What each side brings */}
-              <div className="mx-5 mb-5 border border-ikea-border rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-2 divide-x divide-ikea-border">
+              <div className="mx-5 mb-5 bg-ink rounded-2xl overflow-hidden">
+                <div className="px-4 pt-4 pb-3 border-b border-white/15">
+                  <p className="text-[0.65rem] font-extrabold text-white/60 uppercase tracking-[0.1em]">
+                    Who's bringing what
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 divide-x divide-white/15">
                   <div className="p-4">
-                    <p className="text-xs font-semibold text-ikea-blue uppercase tracking-wider mb-3">
-                      IKEA is bringing
-                    </p>
+                    <div className="mb-3">
+                      <IkeaLogo size="sm" className="text-white" />
+                    </div>
                     <ul className="space-y-2">
                       {initiative.ikeaBrings.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-sm text-gray-700 leading-snug">
-                          <span className="text-ikea-blue mt-0.5 flex-shrink-0 font-bold">·</span>
+                        <li key={item} className="flex items-start gap-2 text-sm text-white leading-snug">
+                          <span className="text-white/50 mt-0.5 flex-shrink-0 font-bold">·</span>
                           {item}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className="p-4">
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                      {partnerName} is bringing
-                    </p>
+                    <div className="mb-3">
+                      <img
+                        src={initiative.partnerLogo}
+                        alt={partnerName}
+                        className="max-h-6 max-w-[120px] w-auto h-auto object-contain bg-white rounded px-1.5 py-1"
+                      />
+                    </div>
                     <ul className="space-y-2">
                       {initiative.partnerBrings.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-sm text-gray-700 leading-snug">
-                          <span className="text-gray-400 mt-0.5 flex-shrink-0 font-bold">·</span>
+                        <li key={item} className="flex items-start gap-2 text-sm text-white leading-snug">
+                          <span className="text-white/50 mt-0.5 flex-shrink-0 font-bold">·</span>
                           {item}
                         </li>
                       ))}
@@ -227,12 +223,27 @@ export default function Shape() {
                   </div>
                 </div>
               </div>
+
+              {/* Still being worked out */}
+              <div className={`mx-5 mb-5 rounded-2xl p-4 ${headerBg}`}>
+                <p className={`text-[0.65rem] font-extrabold uppercase tracking-[0.1em] mb-3 opacity-70 ${headerText}`}>
+                  Still being worked out
+                </p>
+                <ul className="space-y-2">
+                  {initiative.stillOpen.map((item) => (
+                    <li key={item} className={`flex items-start gap-2 text-sm font-semibold leading-snug ${headerText}`}>
+                      <span className="mt-0.5 flex-shrink-0 font-bold opacity-60">·</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Contribution panel */}
-            <div className="bg-white rounded-3xl shadow-sm p-6 space-y-6">
+            <div className="bg-surface-card rounded-3xl shadow-sm p-6 space-y-6">
               <div>
-                <label className="block text-base font-semibold text-ikea-text mb-2">
+                <label className="block text-base font-extrabold text-ink mb-2">
                   What feels missing here?
                 </label>
                 <input
@@ -240,12 +251,12 @@ export default function Shape() {
                   value={draft.missing}
                   onChange={(e) => setDraft((d) => ({ ...d, missing: e.target.value }))}
                   placeholder="An activity, a voice, a resource. Anything that comes to mind."
-                  className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-base text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue"
+                  className="w-full border border-border rounded-2xl px-4 py-3 text-base text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink"
                 />
               </div>
 
               <div>
-                <label className="block text-base font-semibold text-ikea-text mb-2">
+                <label className="block text-base font-extrabold text-ink mb-2">
                   Who else should be part of this?
                 </label>
                 <input
@@ -253,12 +264,12 @@ export default function Shape() {
                   value={draft.whoElse}
                   onChange={(e) => setDraft((d) => ({ ...d, whoElse: e.target.value }))}
                   placeholder="A person, a group, an organisation. Whoever feels like a natural fit."
-                  className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-base text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue"
+                  className="w-full border border-border rounded-2xl px-4 py-3 text-base text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink"
                 />
               </div>
 
               <div>
-                <p className="text-base font-semibold text-ikea-text mb-3">
+                <p className="text-base font-extrabold text-ink mb-3">
                   What could you offer?
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -268,13 +279,14 @@ export default function Shape() {
                       label={opt}
                       active={draft.canOffer.includes(opt)}
                       onClick={() => toggleOffer(opt)}
+                      tone={tone}
                     />
                   ))}
                 </div>
               </div>
 
               <div>
-                <label className="block text-base font-semibold text-ikea-text mb-2">
+                <label className="block text-base font-extrabold text-ink mb-2">
                   Anything you'd want the team to know?
                 </label>
                 <textarea
@@ -282,7 +294,7 @@ export default function Shape() {
                   onChange={(e) => setDraft((d) => ({ ...d, note: e.target.value }))}
                   placeholder="No wrong answers. Write as little or as much as feels right."
                   rows={3}
-                  className="w-full border border-ikea-border rounded-2xl px-4 py-3 text-base text-ikea-text placeholder-gray-300 focus:outline-none focus:border-ikea-blue resize-none"
+                  className="w-full border border-border rounded-2xl px-4 py-3 text-base text-ink placeholder-ink-muted/60 focus:outline-none focus:border-ink resize-none"
                 />
               </div>
             </div>
